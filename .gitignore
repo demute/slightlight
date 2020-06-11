@@ -1,0 +1,11 @@
+*~
+*.o
+*.elf
+*.hex
+*.bin
+*.size
+*.log
+.*.sw[ponm]
+*.vim
+*.dylib
+*.so
