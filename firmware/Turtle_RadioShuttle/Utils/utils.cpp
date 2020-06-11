@@ -22,6 +22,8 @@ USBSerialBuffered *usb;
 #endif
 bool _useDprintf;
 
+
+
 void InitSerial(int timeout, DigitalOut *led, InterruptIn *intr)
 {
     _useDprintf = true;
@@ -33,7 +35,7 @@ void InitSerial(int timeout, DigitalOut *led, InterruptIn *intr)
 	DigitalIn uartRX(USBRX);
 	uartActive = uartRX.read();
     if (!uartActive) {
-        usb = new USBSerialBuffered();
+        usb = new USBSerialBuffered(4096);
         Timer t;
         t.start();
         while(!usb->connected()) {
@@ -454,7 +456,7 @@ static const char *cmds = \
 	" r -- Reset\r\n" \
 	" c -- Continue with RadioShuttle RadioTest\r\n" \
 	"\r\n" \
-	"waiting 10 secs ...\r\n" \
+	"waiting %d secs ...\r\n" \
 	"\r\n";
 
 void RunCommands(int timeout_ms) {
@@ -462,7 +464,7 @@ void RunCommands(int timeout_ms) {
 	while(cmdLoop) {
 		char buf[32];
 
-		rprintf(cmds);
+		rprintf(cmds, timeout_ms / 1000);
 		rprintf("Turtle$ ");
 		if (ConsoleReadline(buf, sizeof(buf), true, timeout_ms) == NULL) {
 			cmdLoop = false;
@@ -475,10 +477,14 @@ void RunCommands(int timeout_ms) {
 				NVPropertyEditor();
 #endif
 			break;
+			case 'b':
+			case 'B':
+    			SX1276BasicTXRX();	// basic LoRa raw ping/pong without RadioShuttle
+				break;
 			case 't':
 			case 'T':
 #ifdef FEATURE_LORA_PING_PONG
-    			SX1276PingPong();	// basic LoRa raw ping/pong without RadioShuttle
+    			//SX1276PingPong();	// basic LoRa raw ping/pong without RadioShuttle
 #endif
 				break;
 #ifdef FEATURE_RADIOTESTSAMPLE

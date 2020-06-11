@@ -78,6 +78,7 @@ OBJECTS += Utils/mbed-util.o
 OBJECTS += Utils/utils.o
 OBJECTS += main.o
 OBJECTS += crc32.o
+OBJECTS += SlightlightProtocol.o
 
  SYS_OBJECTS += mbed/TARGET_NUCLEO_L432KC/TOOLCHAIN_GCC_ARM/PeripheralPins.o
  SYS_OBJECTS += mbed/TARGET_NUCLEO_L432KC/TOOLCHAIN_GCC_ARM/analogin_api.o

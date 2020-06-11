@@ -30,6 +30,8 @@ public:
     	MY_DEVNAME = PRIVATE_RANGE_START,
 		MY_CITY,
 		MY_APP_PASSWORD,
+		GAIN_OFFSET_TX,
+		GAIN_OFFSET_RX,
 	};
 };
 
@@ -46,7 +48,7 @@ struct propArray {
 	{ NVProperty::ADC_VREF,           NVProperty::T_32BIT,  "ADC_VREF", 0, NULL },
 	{ NVProperty::HARDWARE_REV,       NVProperty::T_32BIT,  "HARDWARE_REV", 0, NULL },
 
-	{ NVProperty::LORA_DEVICE_ID,     NVProperty::T_32BIT,  "LORA_DEVICE_ID", 0, NULL },  
+	{ NVProperty::LORA_DEVICE_ID,     NVProperty::T_32BIT,  "LORA_DEVICE_ID", 0, NULL },
 	{ NVProperty::LORA_CODE_ID,       NVProperty::T_32BIT,  "LORA_CODE_ID", 0, NULL },  
 	{ NVProperty::LORA_REMOTE_ID,     NVProperty::T_32BIT,  "LORA_REMOTE_ID", 0, NULL },
 	{ NVProperty::LORA_REMOTE_ID_ALT, NVProperty::T_32BIT,  "LORA_REMOTE_ID_ALT", 0, NULL },
@@ -94,6 +96,8 @@ struct propArray {
 	* A user defined property
 	*/
 	{ UserProperty::MY_CITY,          NVProperty::T_STR,    "MY_CITY", 0, NULL },
+	{ UserProperty::GAIN_OFFSET_TX,   NVProperty::T_32BIT,  "GAIN_OFFSET_TX", 0, NULL },
+	{ UserProperty::GAIN_OFFSET_RX,   NVProperty::T_32BIT,  "GAIN_OFFSET_RX", 0, NULL },
 };
 
 void NVPropertyEditor(void)

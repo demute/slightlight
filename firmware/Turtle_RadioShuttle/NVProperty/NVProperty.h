@@ -169,6 +169,8 @@ public:
 		ALARM_STATUS 	= 60,   // alarm on=0, off !0
 		
 		PRIVATE_RANGE_START = 128,
+		GAIN_OFFSET_TX,
+		GAIN_OFFSET_RX,
 		PRIVATE_RANGE_END 	= 254,
 		MAX_PROPERTIES		= 254, // 1-254
     };
