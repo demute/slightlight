@@ -348,11 +348,16 @@ public:
      *                     [0: continuous, others timeout]
      */
     virtual void Rx( uint32_t timeout );
-    
+
     /*!
      * @brief Check is radio receives a signal
      */
     virtual bool RxSignalPending();
+
+    /*!
+     * @brief Check is radio receives a signal
+     */
+    virtual bool RxHeaderReceived();
 
 
     /*!
@@ -385,6 +390,11 @@ public:
      * @retval rssiValue Current RSSI value in [dBm]
      */
     virtual int16_t GetRssi ( RadioModems_t modem );
+    
+    /*!
+     * @brief Reads the current RSSI value
+     */
+    virtual int16_t MyGetRssi ();
     
     /*!
      * @brief Reads the current frequency error

@@ -949,8 +949,26 @@ bool SX1276::RxSignalPending()
         case MODEM_FSK:
             break;
         case MODEM_LORA:
-			if (Read(REG_LR_MODEMSTAT) & (RFLR_MODEMSTAT_SIGNAL_DETECTED|RFLR_MODEMSTAT_SIGNAL_SYNCRONIZED|RFLR_MODEMSTAT_HEADERINFO_VALID|RFLR_MODEMSTAT_MODEM_CLEAR))
-	            return true;
+            if (Read(REG_LR_MODEMSTAT) & (RFLR_MODEMSTAT_SIGNAL_DETECTED|RFLR_MODEMSTAT_SIGNAL_SYNCRONIZED|RFLR_MODEMSTAT_HEADERINFO_VALID|RFLR_MODEMSTAT_MODEM_CLEAR))
+                return true;
+            break;
+    }
+    return false;
+}
+
+bool SX1276::RxHeaderReceived()
+{
+    if (this->settings.State != RF_RX_RUNNING)
+        return false;
+
+    switch( this->settings.Modem )
+    {
+        case MODEM_FSK:
+            break;
+        case MODEM_LORA:
+            //if (Read(REG_LR_MODEMSTAT) & (RFLR_MODEMSTAT_SIGNAL_DETECTED|RFLR_MODEMSTAT_SIGNAL_SYNCRONIZED|RFLR_MODEMSTAT_HEADERINFO_VALID|RFLR_MODEMSTAT_MODEM_CLEAR))
+            if (Read(REG_LR_MODEMSTAT) & (RFLR_MODEMSTAT_HEADERINFO_VALID))
+                return true;
             break;
     }
     return false;
@@ -1116,6 +1134,12 @@ int16_t SX1276::GetRssi( RadioModems_t modem )
         rssi = -1;
         break;
     }
+    return rssi;
+}
+
+int16_t SX1276::MyGetRssi()
+{
+    int16_t rssi = Read( REG_LR_RSSIVALUE );
     return rssi;
 }
 
@@ -1474,7 +1498,8 @@ void SX1276::OnDio0Irq( void )
                     
                     if(this->RadioEvents && this->RadioEvents->RxDone)
                     {
-                        this->RadioEvents->RxDone(this, this->RadioEvents->userThisPtr, this->RadioEvents->userData, rxtxBuffer, this->settings.LoRaPacketHandler.Size, this->settings.LoRaPacketHandler.RssiValue, this->settings.LoRaPacketHandler.SnrValue );
+                        this->RadioEvents->RxDone(this, this->RadioEvents->userThisPtr, this->RadioEvents->userData, rxtxBuffer, this->settings.LoRaPacketHandler.Size, rssi, this->settings.LoRaPacketHandler.SnrValue );
+                        //this->RadioEvents->RxDone(this, this->RadioEvents->userThisPtr, this->RadioEvents->userData, rxtxBuffer, this->settings.LoRaPacketHandler.Size, this->settings.LoRaPacketHandler.RssiValue, this->settings.LoRaPacketHandler.SnrValue );
                     }
                 }
                 break;
