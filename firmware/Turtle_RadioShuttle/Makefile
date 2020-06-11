@@ -77,6 +77,7 @@ OBJECTS += Utils/arch.o
 OBJECTS += Utils/mbed-util.o
 OBJECTS += Utils/utils.o
 OBJECTS += main.o
+OBJECTS += crc32.o
 
  SYS_OBJECTS += mbed/TARGET_NUCLEO_L432KC/TOOLCHAIN_GCC_ARM/PeripheralPins.o
  SYS_OBJECTS += mbed/TARGET_NUCLEO_L432KC/TOOLCHAIN_GCC_ARM/analogin_api.o
@@ -333,7 +334,7 @@ C_FLAGS += -funsigned-char
 C_FLAGS += -MMD
 C_FLAGS += -fno-delete-null-pointer-checks
 C_FLAGS += -fomit-frame-pointer
-C_FLAGS += -Os
+C_FLAGS += -O0
 C_FLAGS += -g
 C_FLAGS += -DMBED_TRAP_ERRORS_ENABLED=1
 C_FLAGS += -mcpu=cortex-m4
@@ -430,7 +431,7 @@ CXX_FLAGS += -funsigned-char
 CXX_FLAGS += -MMD
 CXX_FLAGS += -fno-delete-null-pointer-checks
 CXX_FLAGS += -fomit-frame-pointer
-CXX_FLAGS += -Os
+CXX_FLAGS += -O0
 CXX_FLAGS += -g
 CXX_FLAGS += -DMBED_TRAP_ERRORS_ENABLED=1
 CXX_FLAGS += -mcpu=cortex-m4
@@ -482,7 +483,7 @@ ASM_FLAGS += -I../mbed/drivers
 ASM_FLAGS += -I../mbed/hal
 ASM_FLAGS += -I../mbed/platform
 ASM_FLAGS += -include
-ASM_FLAGS += /filer/workspace_data/exports/c/cbabff561b202b64e4d7841b3ec87e32/Turtle_RadioShuttle/mbed_config.h
+ASM_FLAGS += ../mbed_config.h
 ASM_FLAGS += -x
 ASM_FLAGS += assembler-with-cpp
 ASM_FLAGS += -c
@@ -498,7 +499,7 @@ ASM_FLAGS += -funsigned-char
 ASM_FLAGS += -MMD
 ASM_FLAGS += -fno-delete-null-pointer-checks
 ASM_FLAGS += -fomit-frame-pointer
-ASM_FLAGS += -Os
+ASM_FLAGS += -O0
 ASM_FLAGS += -g
 ASM_FLAGS += -DMBED_TRAP_ERRORS_ENABLED=1
 ASM_FLAGS += -mcpu=cortex-m4
