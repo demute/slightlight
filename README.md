@@ -65,6 +65,7 @@ tail -f serial.log | ./parse_log.pl
 
 This command will summarise the collected data and make averages of all signal
 strength values and gps-coordinates:
+```
 minRowPackets: 39
 maxRowPackets: 86
 numPackets:    488
@@ -80,6 +81,7 @@ header 16:56:32.664794 TX 2bce (9) gps[12] 59.368691 18.086569 (valid)
 2bce: -74.984 (87) -71.724 (87) -82.522 (87) -84.646 (87) -78.994 (87) -92.601 (87) -87.589 (87) ------- ( 0) -57.364 (87) -92.486 (87)  59.3686141149425168 18.0866126666666709 (87)
 2bcf: -65.211 (49) -65.966 (49) -65.407 (49) -78.290 (49) -72.733 (49) -77.977 (49) -76.243 (49) -56.497 (49) ------- ( 0) -102.671 (49)  59.3686835102040646 18.0865591224489712 (49)
 2bd0: -84.272 (43) -99.757 (43) -76.851 (43) -72.321 (43) -76.604 (43) -75.324 (43) -85.446 (43) -95.308 (43) -102.758 (43) ------- ( 0)  59.3680805813953540 18.0865464883720968 (43)
+```
 
 If all goes well it should show you a
 complete matrix of data with no gaps. When the script is interrupted with
