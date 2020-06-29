@@ -40,8 +40,8 @@ my %lookup =
     "2bca" => "zlatan"
 );
 
-my $mdsFile = "/Users/manne/field_test2/data.expansion.mds";
-my $gpsFile = "/Users/manne/field_test2/data.expansion.gps";
+my $mdsFile = "/Users/manne/github/demute/slightlight/mds.coords";
+my $gpsFile = "/Users/manne/github/demute/slightlight/log.gps";
 
 # sample mds file:
 # 2bc5 0.000000 0.000000
