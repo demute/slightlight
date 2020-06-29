@@ -19,6 +19,16 @@ my %gpsCache;
 my $dumpGps = 1;
 my $gpsFh;
 
+# FIXME: a ugly hack for showing the results of the estimated coordinates. Sorry.
+my $gps2 = {};
+`touch gps.coords`;
+open (my $gps2fh, "<gps.coords") or die;
+while (my $line = <$gps2fh>)
+{
+    my ($node, $lat, $long) = split (/ /, $line);
+    $gps2->{$node} = { lat => $lat, long => $long };
+}
+
 
 if ($dumpGps)
 {
@@ -274,7 +284,7 @@ sub print_strengths
             }
             $clat /= $c;
             $clong /= $c;
-            print $gpsFh sprintf ("{\"id\":\"$to\", \"name\":\"$name\", \"lat\":%0.16f, \"long\":%0.16f, \"count\":%d,\"clat\":%0.16f,\"clong\":%0.16f, \"numsat\":%d}\n", $latAvg, $longAvg, $gobj->{gpsCount},$clat,$clong,$gobj->{numsat});
+            print $gpsFh sprintf ("{\"id\":\"$to\", \"name\":\"$name\", \"lat\":%0.16f, \"long\":%0.16f, \"count\":%d,\"clat\":%0.16f,\"clong\":%0.16f, \"numsat\":%d, \"lat2\":%0.16f, \"long2\":%0.16f }\n", $latAvg, $longAvg, $gobj->{gpsCount},$clat,$clong,$gobj->{numsat}, $gps2->{$to}->{lat}, $gps2->{$to}->{long});
             $gpsFh->flush ();
         }
     }
