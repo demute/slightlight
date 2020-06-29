@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+              crossorigin=""/>
+
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+                integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+        <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+        <script src="https://open.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=DWnbBUppkAXOnizwqtyRoUbxxnLQ8HwD"></script>
+
+        <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+
+        <script type = "text/javascript">
+
+        </script>
+        <style>
+        /* css to customize Leaflet default styles  */
+        .custom-popup2 .leaflet-popup-content-wrapper {
+            /*
+            background:#2c3e50;
+            color:#fff;
+            font-size:16px;
+            line-height:24px;
+            */
+
+            background: rgba(0,0,0,0.5);
+            color: #ffffff;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-right: 0px;
+            padding-left: 1px;
+        }
+        .custom-popup .leaflet-popup-content-wrapper {
+            /*
+            background:#2c3e50;
+            color:#fff;
+            font-size:16px;
+            line-height:24px;
+            */
+
+            background: rgba(255,255,255,0.7);
+            color: #000000;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-right: 0px;
+            padding-left: 1px;
+        }
+        .custom-popup .leaflet-popup-tip-container {
+            width:30px;
+            height:15px;
+        }
+        .custom-popup .custom-popup2 .leaflet-popup-tip {
+            /*
+            border-left:15px solid transparent;
+            border-right:15px solid transparent;
+            border-top:15px solid #2c3e50;
+            */
+        }
+        </style>
+   </head>
+
+   <body>
+       <div id="mapid" style="width: 1500px; height: 800px;"></div>
+           <script>
+               var popupCache = {};
+               L.mapquest.key = 'lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24';
+               //var map = L.map('mapid').setView([obj.lat, obj.long], 13);
+               var map = L.mapquest.map('mapid', {
+                 center: [59.3775262222222224,18.0379013333333],
+                 layers: L.mapquest.tileLayer('satellite'),
+                 zoom: 17
+               });
+
+               L.control.layers({
+                 'Map': map,
+                 'Hybrid': MQ.hybridLayer(),
+                 'Satellite': MQ.satelliteLayer(),
+                 'Dark': MQ.darkLayer(),
+                 'Light': MQ.lightLayer()
+               }).addTo(map);
+
+               //L.tileLayer('http://maps.nypl.org/warper/maps/tile/31110/{z}/{x}/{y}.png').setOpacity(1.0).addTo(map);
+
+               let socket = new WebSocket("ws://systeera.com:9898");
+               socket.onopen = function(e) {
+                     //alert("[open] Connection established");
+                     //alert("Sending to server");
+                     socket.send("My name is John");
+               };
+
+               socket.onmessage = function(event) {
+                   //alert(`[message] Data received from server: ${event.data}`);
+                   var obj = JSON.parse (event.data);
+                   if (! popupCache[obj.id])
+                   {
+                       popupCache[obj.id] = [
+                           L.popup({closeOnClick: false, autoClose: false, closeButton: false, className: 'custom-popup'})
+                           .setLatLng([obj.lat, obj.long])
+                           .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                           .openOn(map),
+                           L.popup({closeOnClick: false, autoClose: false, closeButton: false, className: 'custom-popup2'})
+                           .setLatLng([obj.lat2, obj.long2])
+                           .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                           .openOn(map)];
+                       //popupCache[obj.id] = [
+                       //    L.popup({closeOnClick: false, autoClose: false, closeButton: false, className: 'custom-popup'})
+                       //    .setLatLng([obj.lat, obj.long])
+                       //    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                       //    .openOn(map)];
+                   }
+                   var popup = popupCache[obj.id][0];
+                   var popup2 = popupCache[obj.id][1];
+
+                   //alert (`lat: ${obj.lat} long: ${obj.long}`);
+                   // L.map ('mapid').setView ([obj.lat, obj.long], 13);
+                   //map.setView([obj.lat, obj.long], 16);
+
+                   //var customOptions =
+                   //{
+                   //    'maxWidth': '400',
+                   //    'width': '200',
+                   //    'className' : 'popupCustom'
+                   //};
+                   map.setView([obj.clat, obj.clong], 19);
+                   popup.setLatLng([obj.lat, obj.long]);
+                   popup.setContent(obj.name + ":" + obj.numsat);
+                   popup.update ();
+
+                   popup2.setLatLng([obj.lat2, obj.long2]);
+                   popup2.setContent(obj.name + ":" + obj.numsat);
+                   popup2.update ();
+                   console.log (`updating ${obj.name}`);
+               };
+
+               socket.onclose = function(event) {
+                     if (event.wasClean) {
+                             alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                           } else {
+                                   // e.g. server process killed or network down
+                                   // event.code is usually 1006 in this case
+                                   alert('[close] Connection died');
+                                 }
+               };
+
+               socket.onerror = function(error) {
+                     //alert(`[error] ${error.message}`);
+               };
+           </script>
+
+       <div id = "sse"><a href = "javascript:WebSocketTest()">Run WebSocket</a></div>
+   </body>
+</html>
+
