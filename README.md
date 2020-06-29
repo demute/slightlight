@@ -114,7 +114,7 @@ and rx path is different for every node because of the impedance matching of
 the signal chain. This should introduce fixed gain differences between the
 nodes and so it should be possible to model this with an rx-offset value
 [dBm] and a tx-offset value [dBm]. To estimate these values, we can use the
-values in the log.strenghts file:
+values in the log.strengths file:
 
 ```
 ./calibrate log.strengths calib.mdl
@@ -201,7 +201,7 @@ computations above, using the file mds.coords and log.gps:
 Until further refactoring is done, this can be saved to a file called
 gps.coords and that will trigger parse_log.pl to read that file upon startup.
 By doing so, parse_log.pl will output a second gps-coordinate, e.g. the
-estimated (static) one, to log.gps:
+estimated (static) one, to log.gps, while it is running:
 
 ```
 tail -f log.gps
