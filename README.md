@@ -55,6 +55,7 @@ Now you should see some output looking like this:
 16:26:22.265015     2bcb: -85.059998 dBm
 16:26:22.265808     2bcf: -99.769997 dBm
 16:26:22.266815     2bca: -80.080002 dBm
+...
 ```
 
 That output can be parsed by parse_log.pl:
@@ -89,6 +90,7 @@ ctrl+c, it will generate a file called log.strengths. This file contains
 averaged signal strength and distance information between each pair of
 nodes. The file looks like
 ```
+...
 2bce 2bc7 -87.341 27.4529566743557
 2bce 2bc8 -78.056 25.7444882667066
 2bce 2bc9 -76.052 27.2049948134027
@@ -98,6 +100,7 @@ nodes. The file looks like
 2bce 2bd0 -85.948 60.6026922066047
 2bcf 2bc5 -65.835 19.4429144440803
 2bcf 2bc6 -65.565 17.0749948599585
+...
 ```
 
 Columns are rx-id, tx-id, rssi-value [dBm] and distance [m].
