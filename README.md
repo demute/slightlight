@@ -112,17 +112,16 @@ need a way to estimate this. As it is natural for passive components to have
 different values due to tolerances, it makes sense that the gain of the tx path
 and rx path is different for every node because of the impedance matching of
 the signal chain. This should introduce fixed gain differences between the
-nodes and so it should be possible to module this with an rx-offset value
-[dBm] and a tx-offset value [dBm]. To calibrate these values, we will use the
-information contained in the log.strengths file to create a model:
+nodes and so it should be possible to model this with an rx-offset value
+[dBm] and a tx-offset value [dBm]. To estimate these values, we can use the
+values in the log.strenghts file:
 
 ```
 ./calibrate log.strengths calib.mdl
 ```
 
-This will create the file calib.mdl that contains rx and tx offset information
-so that the signal strengths can be used to compute an estimated distance.
-File looks like this:
+This will create the file calib.mdl that contains rx and tx offset
+information:
 
 ```
 -84.722939
